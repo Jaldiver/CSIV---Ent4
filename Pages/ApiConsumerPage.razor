@@ -1,0 +1,38 @@
+@page "/ApiConsumer"
+@inject DigiServicios DigiServicios
+
+<h1>Lista de Digimones</h1>
+
+@if(digimons== null){
+    <p><em>Cargando Informacion...</em></p>
+} else{
+    <table border height="300px" width="60%">
+        <thead>
+            <tr>
+                <th colspan="2">ID</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Url</th>
+                <th scope="col">Imagen</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(DigiServicios.Digimon digimon in digimons){
+                <tr>
+                    <td colspan="2">@digimon.Id</td>
+                    <td scope="col">@digimon.Name</td>
+                    <td scope="col"><a target="_blank" href="@digimon.Url" class="btn btn-success">Ver más</a></td>
+                    <td scope="col"><img src="@digimon.Image" alt="Digipng"></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+@code{
+    private List<DigiServicios.Digimon> digimons;
+    
+    protected override async Task OnInitializedAsync(){
+        this.digimons = await DigiServicios.GetDigimonsAsync();
+    }
+}
+
+<PageTitle>Consumidor Api</PageTitle>
